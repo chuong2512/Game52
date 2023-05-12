@@ -5,8 +5,7 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-
-    public GameObject clock, fail, complete, winPanel,failPanel;
+    public GameObject clock, fail, complete, winPanel, failPanel;
 
     private float timer;
 
@@ -35,7 +34,7 @@ public class UIManager : MonoBehaviour
     {
         if (startClock)
         {
-            if(timer > 0.0f)
+            if (timer > 0.0f)
             {
                 timer -= Time.deltaTime;
                 clockText.text = Mathf.CeilToInt(timer).ToString();
@@ -66,7 +65,7 @@ public class UIManager : MonoBehaviour
 
     void ShowResult()
     {
-        if(GameController.instance.currentState == GameController.STATE.GAMEOVER)
+        if (GameController.instance.currentState == GameController.STATE.GAMEOVER)
         {
             AudioManager.instance.failAudio.Play();
             StartCoroutine(ShowGameOverIE());
@@ -108,6 +107,17 @@ public class UIManager : MonoBehaviour
         GameController.instance.levelIndex++;
         PlayerPrefs.SetInt("CurrentLevel", GameController.instance.levelIndex);
         SceneManager.LoadScene("Level");
+    }
+
+    public void NextLevelInApp()
+    {
+        if (GameDataManager.Instance.playerData.intDiamond >= 1)
+        {
+            GameController.instance.levelIndex++;
+            GameDataManager.Instance.playerData.SubDiamond(1);
+            PlayerPrefs.SetInt("CurrentLevel", GameController.instance.levelIndex);
+            SceneManager.LoadScene("Level");
+        }
     }
 
     public void Home()
